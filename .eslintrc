@@ -1,8 +1,15 @@
 {
   "root": true,
-  "extends": ["react-app", "react-app/jest", "airbnb"],
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "prettier",
+    "airbnb",
+    "plugin:prettier/recommended"
+  ],
   "rules": {
     "react/react-in-jsx-scope": 0,
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": 0,
+    "prettier/prettier": 2
   }
 }
