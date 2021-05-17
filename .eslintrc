@@ -9,12 +9,15 @@
   ],
   "rules": {
     "react/react-in-jsx-scope": 0,
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": 0,
+    "react/prop-types": 0,
+    "no-unused-vars": 1
   },
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["src"]
+        "paths": ["src"],
+        "extentions": ["js", "jsx", "css", "scss", "ts", "tsx"]
       }
     }
   }
