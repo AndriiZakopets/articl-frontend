@@ -10,7 +10,7 @@ export default function AppRouter() {
   const [user, setUser] = useState(null);
 
   return (
-    <AppLayout user={user}>
+    <AppLayout {...{ user }}>
       <Switch>
         <Route exact path={paths.home}>
           <Home />

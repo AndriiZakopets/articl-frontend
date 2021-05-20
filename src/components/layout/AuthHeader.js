@@ -16,7 +16,12 @@ export default function Header({ user }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Button>Log out</Button>
+            <Button as={Link} to={paths.login}>
+              Log in
+            </Button>
+            <Button className="ml-1" as={Link} to={paths.signUp}>
+              Create account
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
