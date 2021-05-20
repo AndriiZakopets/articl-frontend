@@ -1,7 +1,19 @@
 import { useFormik } from 'formik';
 import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
 import paths from 'router/paths';
+import InputWithValidation from 'components/form/InputWithValidation';
+
+const LoginValidationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Must be a valid email adress.')
+    .required('Must enter an email.'),
+  password: Yup.string()
+    .min(8, 'Password is too short.')
+    .max(50, 'Password is too long.')
+    .required('Must enter a password.'),
+});
 
 export default function Login() {
   const formik = useFormik({
@@ -10,10 +22,9 @@ export default function Login() {
       password: '',
     },
 
-    onSubmit: (values) => {
-      /* eslint-disable-next-line */
-      console.log(values);
-    },
+    validationSchema: LoginValidationSchema,
+
+    onSubmit: async (values) => {},
   });
 
   return (
@@ -26,29 +37,21 @@ export default function Login() {
         <Card>
           <Card.Body>
             <Card.Title as="h3">Log in</Card.Title>
-            <Form onSubmit={formik.handleSubmit}>
-              <Form.Group>
-                <Form.Label htmlFor="email">Email</Form.Label>
-                <Form.Control
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter email"
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="password">Password</Form.Label>
-                <Form.Control
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                />
-              </Form.Group>
+            <Form noValidate onSubmit={formik.handleSubmit}>
+              <InputWithValidation
+                label="Email"
+                id="email"
+                type="email"
+                placeholder="Enter email"
+                formik={formik}
+              />
+              <InputWithValidation
+                label="Password"
+                id="password"
+                type="password"
+                placeholder="Enter password"
+                formik={formik}
+              />
               <Button variant="primary" type="submit" block>
                 Submit
               </Button>

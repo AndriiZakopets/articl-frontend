@@ -1,21 +1,37 @@
 import { useFormik } from 'formik';
 import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
 import paths from 'router/paths';
+import InputWithValidation from 'components/form/InputWithValidation';
+
+const SignUpValidationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Must be a valid email adress.')
+    .required('Must enter an email.'),
+  nickName: Yup.string().required('Must enter a name.'),
+  password: Yup.string()
+    .min(8, 'Password is too short - should be at least 8 characters.')
+    .max(50, 'Password is too long - should be less than 50 characters.')
+    .required('Must enter a password'),
+  passwordConfirmation: Yup.string().oneOf(
+    [Yup.ref('password')],
+    'Passwords must match',
+  ),
+});
 
 export default function SignUp() {
   const formik = useFormik({
     initialValues: {
       email: '',
-      name: '',
+      nickName: '',
       password: '',
       passwordAgain: '',
     },
 
-    onSubmit: (values) => {
-      /* eslint-disable-next-line */
-      console.log(values);
-    },
+    validationSchema: SignUpValidationSchema,
+
+    onSubmit: (values) => {},
   });
 
   return (
@@ -29,50 +45,34 @@ export default function SignUp() {
           <Card.Body>
             <Card.Title as="h3">Sign up</Card.Title>
             <Form onSubmit={formik.handleSubmit}>
-              <Form.Group>
-                <Form.Label htmlFor="email">Email</Form.Label>
-                <Form.Control
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter email"
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="email">Name</Form.Label>
-                <Form.Control
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Enter name"
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="password">Password</Form.Label>
-                <Form.Control
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Enter password"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label htmlFor="password">Password Again</Form.Label>
-                <Form.Control
-                  id="passwordAgain"
-                  name="passwordAgain"
-                  type="password"
-                  placeholder="Repeat password"
-                  onChange={formik.handleChange}
-                  value={formik.values.passwordAgain}
-                />
-              </Form.Group>
+              <InputWithValidation
+                label="Email"
+                id="email"
+                type="email"
+                placeholder="Enter email"
+                formik={formik}
+              />
+              <InputWithValidation
+                label="Nickname"
+                id="nickName"
+                type="text"
+                placeholder="Enter nickname"
+                formik={formik}
+              />
+              <InputWithValidation
+                label="Password"
+                id="password"
+                type="password"
+                placeholder="Enter password"
+                formik={formik}
+              />
+              <InputWithValidation
+                label="Confirm password"
+                id="passwordConfirmation"
+                type="password"
+                placeholder="Enter password again"
+                formik={formik}
+              />
               <Button variant="primary" type="submit" block>
                 Submit
               </Button>
