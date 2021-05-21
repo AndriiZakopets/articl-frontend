@@ -1,19 +1,10 @@
 import { useFormik } from 'formik';
 import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import * as Yup from 'yup';
 import paths from 'router/paths';
 import InputWithValidation from 'components/form/InputWithValidation';
-
-const LoginValidationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Must be a valid email adress.')
-    .required('Must enter an email.'),
-  password: Yup.string()
-    .min(8, 'Password is too short.')
-    .max(50, 'Password is too long.')
-    .required('Must enter a password.'),
-});
+import { login } from 'services/AuthManager';
+import LoginValidationSchema from 'models/LoginValidationSchema';
 
 export default function Login() {
   const formik = useFormik({
@@ -24,7 +15,9 @@ export default function Login() {
 
     validationSchema: LoginValidationSchema,
 
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      login();
+    },
   });
 
   return (
