@@ -3,7 +3,7 @@ import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import paths from 'router/paths';
 import InputWithValidation from 'components/form/InputWithValidation';
-import { login } from 'services/AuthManager';
+import * as AuthManager from 'services/AuthManager';
 import LoginValidationSchema from 'models/LoginValidationSchema';
 
 export default function Login() {
@@ -16,7 +16,7 @@ export default function Login() {
     validationSchema: LoginValidationSchema,
 
     onSubmit: async (values) => {
-      login();
+      AuthManager.login();
     },
   });
 
@@ -45,13 +45,21 @@ export default function Login() {
                 placeholder="Enter password"
                 formik={formik}
               />
-              <Button variant="primary" type="submit" block>
+              <Button
+                disabled={
+                  Object.keys(formik.errors).length > 0 &&
+                  Object.keys(formik.touched).length > 0
+                }
+                variant="primary"
+                type="submit"
+                block
+              >
                 Submit
               </Button>
             </Form>
           </Card.Body>
         </Card>
-        <Card className="mt-2 text-center">
+        <Card className="mt-3 text-center">
           <Card.Body>
             Don’t have an account yet?{' '}
             <Link to={paths.signUp}>Create an account</Link>

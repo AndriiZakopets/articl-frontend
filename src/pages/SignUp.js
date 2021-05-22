@@ -3,14 +3,14 @@ import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import paths from 'router/paths';
 import InputWithValidation from 'components/form/InputWithValidation';
-import { login } from 'services/AuthManager';
+import * as AuthManager from 'services/AuthManager';
 import SignUpValidationSchema from 'models/SignUpValidationSchema';
 
 export default function SignUp() {
   const formik = useFormik({
     initialValues: {
       email: '',
-      nickName: '',
+      name: '',
       password: '',
       passwordAgain: '',
     },
@@ -18,7 +18,7 @@ export default function SignUp() {
     validationSchema: SignUpValidationSchema,
 
     onSubmit: (values) => {
-      login();
+      AuthManager.login();
     },
   });
 
@@ -41,10 +41,10 @@ export default function SignUp() {
                 formik={formik}
               />
               <InputWithValidation
-                label="Nickname"
-                id="nickName"
+                label="Name"
+                id="name"
                 type="text"
-                placeholder="Enter nickname"
+                placeholder="Enter name"
                 formik={formik}
               />
               <InputWithValidation
@@ -61,13 +61,21 @@ export default function SignUp() {
                 placeholder="Enter password again"
                 formik={formik}
               />
-              <Button variant="primary" type="submit" block>
+              <Button
+                disabled={
+                  Object.keys(formik.errors).length > 0 &&
+                  Object.keys(formik.touched).length > 0
+                }
+                variant="primary"
+                type="submit"
+                block
+              >
                 Submit
               </Button>
             </Form>
           </Card.Body>
         </Card>
-        <Card className="mt-2 text-center">
+        <Card className="mt-3 text-center">
           <Card.Body>
             Already have an account? <Link to={paths.login}>Login</Link>
           </Card.Body>
