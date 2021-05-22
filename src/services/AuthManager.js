@@ -17,12 +17,14 @@ export function login(token) {
   localStorage.setItem(tokenKey, token);
 
   emitter.emit(eventTypes.LOGIN);
+  emitter.emit(eventTypes.LOGIN_STATUS_CHANGED, true);
 }
 
 export function logout() {
   localStorage.removeItem(tokenKey);
 
   emitter.emit(eventTypes.LOGOUT);
+  emitter.emit(eventTypes.LOGIN_STATUS_CHANGED, false);
 }
 
 export function onLoginStatusChange(cb) {
