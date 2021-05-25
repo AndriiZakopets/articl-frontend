@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
+import { articleFactory } from '__mocks__/article';
 
 function Article() {
+  const [md, setMd] = useState('');
+
   return (
     <Row className="mt-5">
       <Col
@@ -9,7 +13,9 @@ function Article() {
         sm={{ span: 12 }}
       >
         <Card>
-          <Card.Body>Article</Card.Body>
+          <Card.Body>
+            <pre>{JSON.stringify(articleFactory(), null, 2)}</pre>
+          </Card.Body>
         </Card>
       </Col>
     </Row>
