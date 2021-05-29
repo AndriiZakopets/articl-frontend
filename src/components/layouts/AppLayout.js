@@ -26,7 +26,9 @@ export default function AppLayout({ user, children }) {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Main>{children}</Main>
+      <Container>
+        <Main>{children}</Main>
+      </Container>
     </>
   );
 }
